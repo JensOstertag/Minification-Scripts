@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 /**
  * 0 = Default
@@ -163,13 +164,17 @@ void minify() {
 }
 
 int main(int argc, char *argv[]) {
-    if(argc == 3) {
+    if(argc >= 3) {
         // Open original File
         original = fopen(argv[1], "r");
 
         // Recreate minified File
-        remove(argv[2]);
-        minified = fopen(argv[2], "w");
+        if(argc == 3 || (!(strcmp(argv[3], "-a")) && !(strcmp(argv[3], "--append")))) {
+            remove(argv[2]);
+            minified = fopen(argv[2], "w");
+        } else {
+            minified = fopen(argv[2], "a");
+        }
     }
 
     if(original == NULL || minified == NULL) {
